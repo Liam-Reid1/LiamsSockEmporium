@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Liam's Sock Emporium</title>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <link rel="stylesheet" href="style.css" />
+    <link rel="icon" href="images/pageIcon.ico" type="image/x-icon">
+  </head>
+  <body>
+    <div class="header">
+      <div id="title" class ="blue-header">
+        <div id="titleButtons">
+          <button id="modeButton" onclick="toggleMode()">
+            <img id="modeIcon" src="images/moon_icon.webp">
+          </button>
+          <button id="volumeButton" onclick="toggleVolume()">
+            <img id="volumeIcon" src="images/volume_active_light.webp">
+          </button>
+        </div>
+        <h1 id="titleLabel">Records</h1>
+      </div>
+      <div id="main-link" class="link-box blue-header">
+        <a href="main.html">Main</a>
+      </div>
+      <div id="sock-link" class="link-box blue-header">
+        <a href="socks.html">Socks</a>
+      </div>
+      <div id="record-link" class="link-box blue-header last-link">
+        <a href="record.html">Records</a>
+      </div>
+      <div id="header-end" class="blue-header"></div>
+    </div>
+    
+    <div id="chatbox" class="blue-header">
+      <button id="chatTabButton">Close Me</button>
+      <div class="chatContainer">
+        <div id="chatContent">
+            <section class="answer-section">Talk to Socko</section>
+        </div>
+        <div class="chat-form">
+            <input class="chat-input" id="chatInput" type="text" placeholder="Enter a message..." autocomplete="off">
+            <button class="send-button" id="sendButton">Send</button>
+          </div>
+      </div>
+      <div class="socko"><img id= "sockoImg" src="images/socko_1.webp" alt="Socko" loading="lazy" onerror="this.onerror=null; this.src='images/not_found.webp';"></div>
+    </div>
+
+    <div id="record-background" class="background">
+      <div id="sock-pattern-light" class="pattern"></div>
+      <div id="sock-pattern-dark" class="pattern"></div>
+
+      <div id="recordSearch">
+        <button id="recordButton">Search</button>
+
+        <p id="results"></p>
+
+        <input type="text" id="searchY" maxlength="4" size="10" placeholder="Year" />
+      
+        <select id="searchM">
+          <option value="">Month</option>
+          <option value="01">January</option>
+          <option value="02">February</option>
+          <option value="03">March</option>
+          <option value="04">April</option>
+          <option value="05">May</option>
+          <option value="06">June</option>
+          <option value="07">July</option>
+          <option value="08">August</option>
+          <option value="09">September</option>
+          <option value="10">October</option>
+          <option value="11">November</option>
+          <option value="12">December</option>
+        </select>
+
+        <input type="text" id="searchD" maxlength="9" size="10" placeholder="Day" />
+
+        <input type="text" id="searchS" maxlength="17" size="10" placeholder="Sock" />
+
+        
+      </div>
+
+      <div id="scroll">
+        <h1 id="scrollTitle">Sock Data</h1>
+        <table id="sock-table">
+          <thead>
+            <tr>
+              <th>Sock</th>
+              <th>Date</th>
+              <th>Day</th>
+            </tr>
+          </thead>
+          <tbody>
+            <!-- Data will be inserted here by JavaScript -->
+          </tbody>
+        </table>
+      </div>
+
+      <button id="topButton" onclick="topFunction()">Top</button>
+    </div>
+
+    <script src="chat.js"></script>
+    <script src="script.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/howler/2.2.4/howler.min.js"></script>
+  </body>
+</html>

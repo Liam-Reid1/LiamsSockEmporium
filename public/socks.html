@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Liam's Sock Emporium</title>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <link rel="stylesheet" href="style.css" />
+    <link rel="icon" href="images/pageIcon.ico" type="image/x-icon">
+  </head>
+  <body>
+    <div class="header">
+      <div id="title" class ="blue-header">
+        <div id="titleButtons">
+          <button id="modeButton" onclick="toggleMode()">
+            <img id="modeIcon" src="images/moon_icon.webp">
+          </button>
+          <button id="volumeButton" onclick="toggleVolume()">
+            <img id="volumeIcon" src="images/volume_active_light.webp">
+          </button>
+        </div>
+        <h1 id="titleLabel">Socks</h1>
+      </div>
+      <div id="main-link" class="link-box blue-header">
+        <a href="main.html">Main</a>
+      </div>
+      <div id="sock-link" class="link-box blue-header">
+        <a href="socks.html">Socks</a>
+      </div>
+      <div id="record-link" class="link-box blue-header last-link">
+        <a href="record.html">Records</a>
+      </div>
+      <div id="header-end" class="blue-header"></div>
+    </div>
+      <!-- Chatbox -->
+    <div id="chatbox" class="blue-header">
+      <button id="chatTabButton">Close Me</button>
+      <div class="chatContainer">
+        <div id="chatContent">
+            <section class="answer-section">Talk to Socko</section>
+        </div>
+        <div class="chat-form">
+            <input class="chat-input" id="chatInput" type="text" placeholder="Enter a message..." autocomplete="off">
+            <button class="send-button" id="sendButton">Send</button>
+          </div>
+      </div>
+      <div class="socko"><img id= "sockoImg" src="images/socko_1.webp" alt="Socko" loading="lazy" onerror="this.onerror=null; this.src='images/not_found.webp';"></div>
+    </div>
+    <select id="searchType" onchange="getSockDataSocks()">
+      <option value = 'Name'>Name</option>
+      <option value = 'Popular'>Popular</option>
+      <option value = 'Recent'>Recent</option>
+      <option value = 'Newest'>Newest</option>
+    </select>
+
+    <div id="boxContainer">
+      
+      <!-- Sock Type Boxes-->
+    </div>
+
+    <div id="modalContainer">
+      <div class="sockStat draggable" id="sock1Stat" draggable="true"></div>
+      <div class="sockStat draggable" id="sock2Stat" draggable="true"></div>
+      <div class="sockStat draggable" id="sock3Stat" draggable="true"></div>
+      <div class="sockStat draggable" id="sock4Stat" draggable="true"></div>
+      <div class="sockStat draggable" id="sock5Stat" draggable="true"></div>
+      <!-- Sock Type Modals-->
+    </div>
+    <script src="chat.js"></script>
+    <script src="script.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/howler/2.2.4/howler.min.js"></script>
+  </body>
+</html>

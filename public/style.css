@@ -1,0 +1,1364 @@
+@font-face {
+  font-family: 'MapleMono';
+  src: url('fonts/MapleMono-VF.woff2') format('woff2');
+  font-weight: normal;
+  font-style: normal;
+}
+
+
+:root,
+:root.lightMode {
+  --border-colour: #000000;
+  --text-colour: #000000;
+  --placeholder-text-colour: #757575;
+  --blue: #67AFFB;
+  --red: #FF7170;
+  --yellow: #FFFF66;
+  --container-colour: #FAFAFA;
+  --chat-colour: #EAF6FF;
+  --chart-text-colour: #666666;
+  --grid-colour: #0000001a;
+  --sock-header: #808080;
+  --sock-img: #3a3a3a;
+  --sock-data: #faebd7;
+  --record-background: #fad1da;
+  --sock-box: #d3f1ff;
+  --background: #d3f1ff;
+}
+:root.darkMode {
+  --border-colour: #ffffff;
+  --text-colour: #ffffff;
+  --placeholder-text-colour: #d0d0d0;
+  --blue: #392C7E;
+  --red: #993344;
+  --yellow: #626228;
+  --container-colour: #414362;
+  --chart-text-colour: #FFFFFF;
+  --grid-colour: #ffffff2f;
+  --sock-header: #353543;
+  --sock-img: #1E1D24;
+  --sock-data: #312D43;
+  --sock-box: #392C7E;
+  --background: #46389e;
+}
+
+#modeButton, #volumeButton {
+  position: absolute;
+  top: 15px;
+  width: 50px;
+  height: 50px;
+  background-color: #00000000;
+  border: none;
+  overflow: hidden;
+  transition: transform 0.3s ease;
+  cursor: pointer;
+}
+#modeButton {
+  left: 2%;
+}
+#volumeButton {
+  left: 10%;
+}
+#modeIcon, #volumeIcon {
+  overflow: hidden;
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  transition: transform 0.3s ease;
+}
+#modeButton:hover, #volumeButton:hover {
+  transform: scale(1.1);
+}
+#modeButton:active, #volumeButton:active {
+  transform: scale(0.8);
+}
+
+
+h1 {
+  font-size: 32px;
+}
+body {
+  margin: 0;
+  background-color: var(--background);
+  transition: background-color 0.3s ease;
+  font-family: 'MapleMono', monospace;
+  overflow-x: hidden;
+}
+.boldText {
+  font-weight: bold;
+}
+
+
+/* Header style */
+
+.header {
+  width: calc(80% - 5px);
+  background-color: aqua;
+  border-bottom: 5px solid;
+  border-color: var(--border-colour);
+  height: 80px;
+  position: fixed;
+  top: 0;
+  left: 0;
+  z-index: 3;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  transition: 0.3s ease;
+}
+.blue-header {
+  background-color: var(--blue);
+  box-shadow: 0 0 0 5px #67AFFB inset;
+}
+.red-header {
+  background-color: var(--red);
+  box-shadow: 0 0 0 5px #FF7170 inset;
+}
+.yellow-header {
+  background-color: var(--yellow);
+  box-shadow: 0 0 0 5px #FFFF66 inset;
+}
+
+#title {
+  width: 100%;
+  height: 80px;
+  display: flex;
+  text-align: center;
+  justify-content: center;
+  align-items: center;
+  color: var(--text-colour);
+  font-weight: bold;
+  border-right: 5px solid;
+  border-color: var(--border-colour);
+  transition: 0.3s ease;
+}
+#titleButtons {
+  width: 25%;
+  object-fit: contain;
+}
+#titleLabel {
+  width: 75%;
+}
+
+.link-box {
+  text-decoration: none;
+  text-align: center;
+  font-size: 20px;
+  line-height: 80px;
+  color: var(--text-colour);
+  font-weight: bold;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 33%;
+  height: 100%;
+  cursor: pointer;
+  border-right: 5px solid var(--border-colour);
+  transition: 0.3s ease;
+}
+
+.link-box:hover {
+  background-color: #ddd;
+  font-size: 21px;
+}
+
+.link-box a {
+  text-decoration: none;
+  color: inherit;
+  font-weight: inherit;
+  display: block;
+  width: 100%;
+  height: 100%;
+}
+
+#header-end {
+  z-index: 2;
+  right: 0.25px;
+  top: 0.25px;
+  position: fixed;
+  border-bottom: 5px solid;
+  display: flex;
+  text-decoration: none;
+  text-align: center;
+  font-size: 20px;
+  color: var(--text-colour);
+  font-weight: bold;
+  align-items: center;
+  justify-content: center;
+  width: calc(20% + 5px);
+  height: 80px;
+  transition: 0.3s ease;
+}
+
+@media (max-width: 768px) {
+  h1 {
+    font-size: 24px;
+  }
+  #modeButton, #volumeButton {
+    width: 35px;
+    height: 35px;
+    top: 23px;
+  }
+  .header {
+    width: 100%;
+  }
+  .link-box {
+    font-size: 12px;
+  }
+  .link-box:hover {
+    font-size: 13px;
+  }
+  #header-end {
+    display: none;
+  }
+  .last-link {
+    border-right: none;
+  }
+}
+
+#chatbox {
+  width: calc(20% + 5px);
+  height: 100%; /*calc(100% - 84.5px);*/
+  border-left: 5px solid var(--border-colour);
+  color: var(--text-colour);
+  position: fixed;
+  bottom: 0;
+  right: 0;
+  z-index: 3;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: 0.3s ease;
+}
+
+#chatTabButton { 
+  width: 100px; 
+  rotate: -90deg; 
+  border: 5px solid; 
+  color: var(--text-colour); 
+  background-color: var(--container-colour);
+  border-top-right-radius: 15px; 
+  border-top-left-radius: 15px; 
+  font-size: 15px; 
+  font-weight: bold; 
+  line-height: 25px; 
+  font-family: 'MapleMono', monospace; 
+  align-self:flex-start;
+  position: absolute; 
+  top: 40%;
+  left: -68.5px;
+  margin-top: -50px; 
+  border-color: var(--border-colour); 
+  cursor: pointer;
+  transition: 0.3s ease;
+} 
+#chatTabButton:hover { 
+  transform: scaleX(1.10); 
+} 
+
+@keyframes chatboxHide {
+  0% {
+    right: 0;
+  }
+  100% {
+    right: calc(-20% - 10px);
+  }
+}
+@keyframes chatboxShow {
+  0% {
+    right: calc(-20% - 10px);
+  }
+  100% {
+    right: 0;
+  }
+}
+
+
+
+.chatContainer {
+    width: 25rem;
+    margin-top: -60px; /* -160px */
+    background-color: var(--container-colour);
+    box-shadow: 0px 5px 10px rgba(0, 0, 0, 0.05);
+    border: 5px solid;
+    border-radius: 10px;
+    border-color: var(--border-colour);
+    height: 300px;
+    margin-inline: 1rem;
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+    transition: 0.3s ease;
+}
+
+#chatContent {
+  padding: 1rem;
+  height: 200px;
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  overflow: auto;
+  font-size: 12px;
+}
+
+.answer-section {
+    background: #EAEAEA;
+    padding: 0.5rem;
+    border-radius: 0.5rem 0.5rem 0.5rem 0;
+    width: fit-content;
+    display: flex;
+    align-items: center;
+    color: black;
+    white-space: pre-wrap;
+    overflow-wrap: anywhere;
+    font-size: 11px;
+}
+.answer-section:has(.loader) {
+  width: 30px;
+  height: 15px;
+}
+
+.question-section {
+    background: #4F6BFE;
+    color: white;
+    padding: 0.5rem;
+    width: fit-content;
+    border-radius: 0.5rem 0.5rem 0rem 0.5rem;
+    margin-left: auto;
+    overflow-wrap: anywhere;
+    font-size: 11px;
+}
+
+.chat-form {
+    border-top: 1px solid #F2F2F2;
+    padding: 0.75rem;
+    display: flex;
+    gap: 0.75rem;
+    width: 70%;
+    height: 100px;
+    align-self: center;
+    align-items: center;
+    flex-direction: column;
+    
+}
+
+.chat-input {
+    outline: none;
+    border: 1px solid #7F7F80;
+    border-radius: 5px;
+    background-color: #E5E8EE;
+    flex: 1;
+    height: 30px;
+    max-height: 30px;
+    width: 110%;
+    min-width: 110%;
+    font-size: 12px;
+    font-weight: bold;
+    font-family: 'MapleMono', monospace;
+}
+.chat-input::placeholder {
+  color: #7F7F80;
+}
+
+.send-button {
+    background: #2F8D47;
+    border: none;
+    padding: 0.5rem;
+    border-radius: 5px;
+    width: 100%;
+    height: 30px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    font-size: 14px;
+    font-weight: bold;
+    color: white;
+    transition: 0.25s ease;
+    font-family: 'MapleMono', 'monospace';
+}
+
+.send-button-nonactive {
+    opacity: 0.1;
+    background: black;
+    pointer-events: none;
+}
+
+.send-button:active {
+    transform: scale(0.9);
+}
+
+
+.socko {
+  position: absolute;
+  border: 5px solid;
+  border-radius: 20px;
+  border-color: var(--border-colour);
+  width: 130px;
+  height: 130px;
+  min-width: 130px;
+  bottom: 15px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: var(--container-colour);
+  overflow: hidden;
+  cursor: grab;
+  transition: 0.3s ease;
+}
+
+#sockoImg {
+  width: 100%;
+  height: 100%;
+  margin-top: 10px;
+  object-fit: contain;
+  transition: transform 0.2s ease;
+}
+#sockoImg:hover {
+  transform: scale(104%);
+}
+
+@media (max-width: 768px) {
+  #chatbox, #chatTabButton {
+    display: none;
+  }
+}
+
+/* Socks style */
+
+#boxContainer {
+  text-align: center;
+  width: 55%;
+  height: 80%;
+  margin: 11% auto 4%;
+  position: relative;
+  display: grid;
+  border: 5px solid;
+  border-radius: 20px;
+  border-color: var(--border-colour);
+  grid-template-rows: 120px;
+  grid-auto-rows: 120px;
+  grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
+  flex-wrap: wrap;
+  gap: 20px;
+  padding: 20px;
+  border-radius: 20px;
+  justify-content: center;
+  align-items: center;
+  background-color: var(--container-colour);
+  transition: 0.3s ease;
+
+}
+
+.sockBox {
+  position: relative;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 50px;
+  min-width: 50px;
+  height: 50px;
+  background-color: var(--sock-box);
+  padding: 2rem;
+  border: 5px solid;
+  border-radius: 20px;
+  border-color: var(--border-colour);
+  text-align: center;
+  font-size: 16px;
+  font-weight: bold;
+  color: var(--text-colour);
+  cursor: pointer;
+  transition: transform 0.2s ease, border-color 0.3s ease, color 0.3s ease, background-color 0.3s ease;
+
+  white-space: normal;
+  word-wrap: break-word;
+  overflow-wrap: break-word;
+}
+
+.sockBox:hover {
+  transform: scale(105%);
+}
+
+.sockBox:hover .sockScore {
+  transform: scale(125%);
+}
+.sockBox:active {
+  transform: scale(80%);
+}
+
+.sockScore {
+  position: absolute;
+  top: 5px;
+  left: 10px;
+  font-size: 12px;
+  transition: 0.3s ease;
+}
+
+
+#searchType {
+  position: absolute;
+  top: 25%;
+  left: 10%;
+  border: 5px solid;
+  border-radius: 20px;
+  border-color: var(--border-colour);
+  box-shadow: rgba(0, 0, 0, 0.2) 4px 4px;
+  width: 140px;
+  font-size: 16px;
+  font-family: 'MapleMono', monospace;
+  font-weight: bold;
+  color: var(--text-colour);
+  background-color: var(--container-colour);
+  padding: 20px;
+  cursor: pointer;
+  transition: 0.3s ease;
+}
+#searchType:hover {
+  transform: scale(103%);
+}
+
+@media (max-width: 768px) {
+  #boxContainer {
+    margin: 50% auto 4%;
+    transform: translateX(-4.5%);
+    grid-template-columns: repeat(auto-fit, minmax(90px, 1fr));
+  }
+  #searchType {
+    position: absolute;
+    top: 110px;
+  }
+  .sockBox {
+    padding: 1.5rem;
+    font-size: 14px;
+  }
+}
+
+/* Sock Modal style */
+
+.sockStat {
+  position: fixed;
+  touch-action: auto;
+  top: 100px;
+  left: 200px;
+  display: none;
+  width: 330px;
+  height: 320px;
+  border: 5px solid;
+  border-radius: 20px;
+  border-color: var(--border-colour);
+  background-color: blue;
+  animation: zoomIn 0.2s;
+  flex-direction: column;
+  overflow: hidden; 
+  align-items: flex-start;
+  justify-content:flex-start;
+  z-index: 4;
+  transition: border-color 0.3s ease;
+  box-shadow: rgba(0, 0, 0, 0.2) 5px 5px;
+}
+
+.sockStatHeader {
+  position: absolute;
+  text-align: center;
+  justify-content: center;
+  align-items: flex-start;
+  width: 100%;
+  height: 60px;
+  background-color: var(--sock-header);
+  color: var(--text-colour);
+  border-bottom: 4px solid var(--border-colour);
+  box-shadow: 0 8px 6px -6px rgba(0, 0, 0, 0.3);
+  transition: 0.3s ease;
+  touch-action: none;
+  cursor: grab;
+}
+
+.sockStatTitle {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 75%;
+  height: 100%;
+  margin-top: -3px;
+}
+
+.sockStatClose {
+  top: 25%;
+  right:15px;
+  font-size: 20px;
+  color: var(--text-colour);
+  transition: transform 0.2s ease, color 0.3s ease;
+}
+.sockStatClose:hover {
+  transform: scale(105%);
+}
+.sockStatClose:active {
+  transform: scale(80%);
+}
+.sockStatClose.clicked {
+  transform: scale(80%);
+}
+
+.sockStatClose, .sockStatPin {
+  align-items: center;
+  touch-action: auto;
+  background-color: #00000000;
+  position: absolute;
+  border: 0 solid;
+  margin: 0;
+  padding: 0;
+  font-family: 'MapleMono', monospace;
+  font-weight: bold;
+  cursor: pointer;
+  color: var(--text-colour);
+}
+
+.sockStatPin {
+  top: 25%;
+  right:55px;
+  font-size: 20px;
+  transition: transform 0.2s ease, color 0.3s ease;
+}
+.sockStatPin:hover {
+  transform: scale(105%);
+}
+.sockStatPin:active {
+  transform: scale(80%);
+}
+
+
+.sockPinIcon {
+  width: 75%;
+  top: 0;
+  left: 4px;
+  display: flex;
+  position: absolute;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+  transition: 0.3s ease;
+}
+
+.sockPicIcon img {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+}
+
+
+.sockData {
+  display: grid;
+  flex-direction: row;
+  align-items: center;
+  gap: 20px;
+  margin-top: 60px;
+  grid-template-columns: 135px 115px;
+  grid-template-rows: 125px 400px;   
+}
+
+
+.sockImg {
+  border: 5px solid;
+  border-top-right-radius: 20px;
+  border-bottom-right-radius: 20px;
+  border-color: var(--border-colour);
+  width: 100%;
+  height: 100%;
+  margin-top: 50px;
+  margin-left: -5px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: var(--sock-img);
+  overflow: hidden;
+  transition: 0.3s ease;
+}
+
+.sockImg img {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  transform: scale(1.1) rotate(-5deg);
+  animation: tilt 4s infinite ease-in-out;
+
+  /*
+  -webkit-filter: drop-shadow(2px 1px 0 #ffffff)
+                  drop-shadow(-1px -1px 0 #ffffff);
+  filter: drop-shadow(2px 1px 0 #ffffff) 
+          drop-shadow(-1px -1px 0 #ffffff);
+  */
+}
+
+
+.sockText {
+  display: flex;
+  background-color: var(--sock-data);
+  border: 5px solid;
+  border-radius: 20px;
+  border-color: var(--border-colour);
+  width: 110px;
+  height: 205px;
+  margin-left: 5px;
+  margin-top: 20px;
+  padding: 5px 15px 0px 15px;
+  align-self: start;
+  line-height: 20px;
+  text-align:justify;
+  vertical-align: top;
+  color: var(--text-colour);
+  font-size: 10px;
+  overflow-x: hidden;
+  overflow-y: auto;
+  transition: 0.3s ease;
+}
+
+.sockDesc {
+  display: flex;
+  align-self: start;
+  margin: 20px;
+  font-size: 12px;
+  margin-right: -10px;
+}
+
+@keyframes tilt {
+  0% {
+    transform: scale(1.1) rotate(-5deg);
+  }
+  50% {
+    transform: scale(1.1) rotate(10deg);
+  }
+  100% {
+    transform: scale(1.1) rotate(-5deg);
+  }
+}
+
+@keyframes zoomIn {
+  from {
+    transform: scale(0);
+    opacity: 0%;
+  }
+  to {
+    transform: scale(1);
+    opacity: 100%;
+  }
+}
+
+@keyframes zoomOut {
+  from {
+    transform: scale(1);
+    opacity: 100%;
+  }
+  to {
+    transform: scale(0);
+    opacity: 0%;
+  }
+} 
+
+#chartContainer {
+  margin: 11% 0 3% 2%;
+  width: 71%; /* 890px */
+  background-color: #00000000;
+  border: 5px solid;
+  border-radius: 20px;
+  border-color: var(--border-colour);
+  padding: 20px;
+  display: flex;
+  justify-content: center;
+  flex-direction: column;
+  align-items: center;
+  transition: 0.3s ease;
+}
+
+#bigItemsContainer {
+  width: 100%;
+  height: 400px;
+  display: grid;
+  grid-template-columns: repeat(2, minmax(150px, 1fr));
+  grid-template-rows: 150px 150px;
+  grid-auto-flow: column;
+  gap: 20px;
+  object-fit: contain;
+  overflow: none;
+}
+
+#logoContainer {
+  width: 98%; /* 420px */
+  height: auto; /* 150px */
+  border: 5px solid;
+  border-radius: 20px;
+  border-color: var(--border-colour);
+  background-color: var(--container-colour);
+  overflow: hidden;
+  aspect-ratio: 42 / 15;
+  transition: 0.3s ease;
+}
+
+#logoImg {
+  opacity: 1;
+  height: auto;
+  max-width: 100%;
+  height: fit-content;
+  transition: 0.3s ease; /* smooth fade */
+}
+#logoImg img {
+  width: 100%;
+  object-fit: contain;
+}
+
+
+#bigNumbers {
+  width: 98%;
+  height: 101%; /*170px */            /* example fixed height */
+  text-align: center;        /* horizontally centers text */
+  line-height: 22px;
+  padding-top: 20px;
+  font-size: 1.75vw;
+  border: 5px solid;
+  border-radius: 20px;
+  border-color: var(--border-colour);
+  background-color: var(--container-colour);
+  color: var(--text-colour);
+  transition: 0.3s ease;
+}
+
+
+.tab-buttons { 
+  display: flex; 
+  gap: 10px; 
+  margin-top: 20px; 
+} 
+.tab button { 
+  background-color: inherit; 
+  float: left; 
+  border: none; 
+  outline: none; 
+  cursor: pointer; 
+  border-top-left-radius: 20px;
+  border-top-right-radius: 20px;
+  border-color: var(--border-colour);
+  background-color: var(--container-colour);
+  color: var(--text-colour);
+  padding: 14px 16px; 
+  margin: 0 10px;
+  transition: 0.3s ease; 
+  font-size: 12px; /* Increase font size */ 
+  font-weight: bold;
+  font-family: 'MapleMono', monospace; 
+} 
+/* Change background color of buttons on hover */ 
+.tab button:hover { 
+  background-color: #ddd; 
+} 
+/* Create an active/current tablink class */ 
+.tab button.active { 
+  background-color: #ccc; 
+  box-shadow: 0 0 0 5px;
+} 
+
+.tab-body {
+  width: 100%;
+  margin-top: 70px;
+  overflow: hidden;
+}
+
+.tabcontent {
+  height: 100%; /* 150px */
+  width: 100%;
+  max-width: 430px; /* 401px */
+  justify-content: center; /* or space-between / center if you want spacing */
+  box-sizing: border-box;
+  align-items: center;
+  object-fit: contain;
+  border: 5px solid;
+  border-bottom-left-radius: 20px;
+  border-bottom-right-radius: 20px;
+  border-top: 5px solid;
+  border-color: var(--border-colour);
+  background-color: var(--container-colour);
+  gap: 15px;
+  display: none; 
+  padding: 6px 12px;  
+  transition: 0.3s ease;
+  overflow-x: auto;
+  white-space: nowrap;
+} 
+.tabcontent.active { 
+  display: flex;       /* makes children align left-to-right */
+}
+
+#splashText {
+  margin-top: 100px;
+  width: 98%;
+  height: 90px;
+  min-height: 90px;
+  max-height: 90px;
+  line-height: 90px;
+  font-size: 1.5vw;
+  font-weight: bold;
+  text-align: center;
+  background-color: var(--container-colour);
+  color: var(--text-colour);
+  border: 5px solid;
+  border-radius: 20px;
+  border-color: var(--border-colour);
+  white-space: nowrap;
+  transition: 0.3s ease;
+  animation: pulse 4s linear infinite;
+  overflow: hidden;
+}
+
+@keyframes pulse {
+  0% {
+    font-size: 1.5vw;
+  }
+  50% {
+    font-size: 1.6vw;
+  }
+  100% {
+    font-size: 1.5vw;
+  }
+  
+}
+
+
+#pieChart, #barChart {
+  width: 90%;
+  padding: 20px;
+  margin: 20px 0;
+  border: 5px solid;
+  border-radius: 20px;
+  border-color: var(--border-colour);
+  background-color: var(--container-colour);
+  transition: 0.3s ease;
+}
+#barContainer {
+  width: 94%;
+  margin: 20px 0;
+  height: 400px;
+  padding: 20px;
+  border: 5px solid;
+  border-radius: 20px;
+  border-color: var(--border-colour);
+  background-color: var(--container-colour);
+  transition: 0.3s ease;
+}
+
+/* Holds sock checkboxes and line chart */
+#timeDisplay {
+  align-self: flex-start;
+  width: 90%;
+  height: 400px;
+  margin: 20px 0;
+  display: grid;
+  grid-template-columns: 25% 84%;
+  object-fit: contain;
+  gap: 20px;
+
+}
+
+/* checkbox with label attached for each sock */
+#sockCheckboxes {
+  overflow-wrap: anywhere;
+  padding: 15px;
+  display: grid;
+  grid-template-columns: 1fr;
+  border: 5px solid;
+  border-radius: 20px;
+  border-color: var(--border-colour);
+  overflow-y: scroll;
+  line-height: 30px;
+  font-size: 1.25vw;
+  color: var(--text-colour);
+  background-color: var(--container-colour);
+  transition: 0.3s ease;
+}
+/* Holds line chart and forms it to the right shape */
+#lineContainer {
+  padding: 10px;
+  border: 5px solid;
+  border-radius: 20px;
+  border-color: var(--border-colour);
+  background-color: var(--container-colour);
+  transition: 0.3s ease;
+}
+#lineChart {
+  transition: 0.3s ease;
+}
+/* Special checkbox label with more pronounced font style */
+#selectAllLabel {
+  font-size: 1.25vw;
+  font-weight: bold;
+}
+.sockLabel, .sockCheckbox, #selectAllLabel, #selectAll {
+  cursor: pointer;
+}
+
+@media (max-width: 768px) {
+  #chartContainer {
+    width: 80%;
+    margin: 25% 0 3% 0;
+    transform: translateX(-8.5%);
+  }
+  #bigItemsContainer {
+    grid-template-columns: 1fr;
+    grid-template-rows: repeat(4, minmax(80px, auto));
+    height: auto;      /* grow to fit content instead of fixed 400px */
+    gap: 12px;
+    padding: 8px;
+  }
+
+  /* ensure cell children fill their grid cell and don't overflow page */
+  #bigItemsContainer > * {
+    width: 100%;
+    height: auto;      /* allow content to determine height */
+    min-height: 80px;  /* reasonable touchable size */
+  }
+  #logoContainer {
+    width: 98%;
+    height: auto;
+    overflow: hidden;
+    object-fit: contain;
+  }
+  #logoImg {
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+  }
+  #bigNumbers {
+    width: 98%;
+    font-size: 24px;
+    line-height: 30px;
+    padding-bottom: 50px;
+  }
+  #splashText {
+    width: 98%;
+    margin-top: 0;
+    font-size: 16px;
+  }
+  @keyframes pulse {
+    0% {
+      font-size: 16px;
+    }
+    50% {
+      font-size: 18px;
+    }
+    100% {
+      font-size: 16px;
+    }
+  }
+  .tabcontent {
+    width: 75vw;         /* fixed width relative to viewport */
+    max-width: 75vw;     /* don’t allow larger */
+    min-width: 75vw;     /* don’t allow smaller */
+    box-sizing: border-box; /* include padding and borders in width */
+    overflow-x: auto;    /* scroll if content overflows */
+  }
+
+  .tab button {
+    padding: 14px 0; 
+    margin: 0 5px;
+  }
+  #timeDisplay {
+    display: none;
+  }
+  #barGraph {
+    width: 90%;
+    height: 500px;
+  }
+}
+
+
+
+
+
+
+/* Records */
+
+#scroll { 
+  background-color: var(--container-colour); 
+  position: relative; 
+  display: inline-block; 
+  text-align: center; 
+  width: 40%; 
+  height: 80%;
+  margin: 10% 0 5% 20%;
+  padding: 20px;
+  padding-bottom: 50px;
+  border: 5px solid;
+  border-radius: 20px;
+  color: var(--text-colour);
+  transition: 0.3s ease;
+  transform-origin: center;
+  border-color: var(--border-colour);
+} 
+.scroll:hover {
+  transform: scaleX(1.01);
+} 
+
+#scrollTitle { 
+  transition: 0.4s ease; 
+} 
+
+@keyframes pop { 
+  0%{ 
+    scale: calc(100%); 
+  } 
+  50%{ 
+    scale: calc(103%); 
+  } 
+  100%{ 
+    scale: calc(100%); 
+  } 
+} 
+
+#topButton { /* go through this */ 
+  display: none; /* Hidden by default */ 
+  position: fixed; /* Fixed/sticky position */
+  bottom: 10%; /* Place the button at the bottom of the page */
+  right: 25%; /* Place the button 30px from the right */
+  z-index: 99; /* Make sure it does not overlap */
+  outline: none; /* Remove outline */
+  background-color: var(--container-colour); /* Set a background color */
+  color: var(--text-colour); /* Text color */
+  cursor: pointer; /* Add a mouse pointer on hover */
+  padding: 15px; /* Some padding */
+  border: 5px solid;
+  border-radius: 20px; /* Rounded corners */ 
+  font-size: 1rem; /* Increase font size */ 
+  font-family: 'MapleMono', monospace; 
+  transition: 0.3s ease;
+  border-color: var(--border-colour); 
+  box-shadow: rgba(0, 0, 0, 0.2) 4px 4px;
+} #topButton:hover { 
+  background-color: #ddd; 
+}
+
+#sock-table { 
+  width: 105%; 
+  border-collapse: collapse; 
+  margin: 0 auto; 
+  position: relative; 
+  text-align: center; 
+} 
+
+#sock-table td, #sock-table th { 
+  font-size: 1rem; 
+  width: 33%; 
+  text-align: center; 
+  vertical-align: middle; 
+} 
+
+#recordSearch { 
+  position: fixed; 
+  width: 125px; /* 125px */
+  height: 200px; /* 34% */
+  top: 40%; 
+  left: 0;
+  display: flex; 
+  flex-direction: column; 
+  align-items: center; 
+  justify-content: space-evenly; /* Even vertical spacing */ 
+  padding: 5px 20px; 
+  background-color: var(--container-colour); 
+  border: 5px solid; 
+  border-radius: 20px; 
+  box-shadow: none; 
+  border-color: var(--border-colour); 
+  transition: 0.3s ease;
+} 
+
+@keyframes recordSearchShow { 
+  from {transform: translateX(-175px)} 
+  to {transform: translateX(10px)} 
+} 
+
+@keyframes recordSearchHide { 
+  from {transform: translateX(10px)} 
+  to {transform: translateX(-175px)} 
+} 
+
+#searchY, #searchM, #searchD, #searchS { 
+  font-size: 15px; 
+  font-family: 'MapleMono', monospace; 
+  width: 100%; 
+  border: 4px solid; 
+  border-radius: 10px; 
+  border-color: var(--border-colour); 
+  color: var(--text-colour);
+  background-color: var(--container-colour);
+  transition: transform 0.2s ease, border-color 0.3s ease, background-color 0.3s ease, color 0.3s ease;
+} 
+input::placeholder {
+  color: var(--placeholder-text-colour);
+  transition: 0.3s ease;
+}
+#searchM {
+  cursor: pointer;
+}
+
+#results { 
+  font-size: 13px; 
+  font-family: 'MapleMono', monospace; 
+  color: var(--text-colour);
+  width: 100%; 
+  vertical-align: middle; 
+  text-align: center; 
+  margin: 0; 
+  transition: color 0.3s ease, transform 0.2s ease; 
+} 
+
+#searchY:hover, #searchM:hover, #searchD:hover, #searchS:hover { 
+  transform: scale(105%); 
+} 
+
+#recordButton { 
+  width: 100px; 
+  rotate: 90deg; 
+  border: 5px solid; 
+  color: var(--text-colour); 
+  background-color: var(--container-colour);
+  border-top-right-radius: 15px; 
+  border-top-left-radius: 15px; 
+  font-size: 15px; 
+  font-weight: bold; 
+  line-height: 25px; 
+  font-family: 'MapleMono', monospace; 
+  transition: 0.3s ease;
+  align-self:flex-start; 
+  position: relative; 
+  top: 125px; 
+  left: 91%; 
+  margin-top: -50px; 
+  cursor: pointer;
+  border-color: var(--border-colour); 
+} 
+#recordButton:hover { 
+  transform: scaleX(1.10); 
+} 
+
+@media (max-width: 768px) {
+  #recordSearch {
+    left: 0;
+    top: 7rem;
+    position: absolute;
+  }
+  #scroll {
+    width:60%;
+    margin: 90% 0 5% 0;
+    transform: translate(-15%);
+  }
+  #sock-table td, #sock-table th { 
+    font-size: 0.75rem; 
+  } 
+  #topButton {
+    right: 1%;
+  }
+}
+
+.background { 
+  position: relative; 
+  z-index: 0; 
+  top: 12px; 
+  left: 0; 
+  width: 100%; 
+  height: 100%;
+  display: block; 
+  overflow: hidden; 
+  min-height: 100vh; 
+} 
+
+
+.pattern { 
+  background-size: 10%; 
+  position: absolute; 
+  left: 50%; 
+  top: 0px; 
+  translate: -50% 0%; 
+  z-index: -1; 
+  height: 100%; 
+  width: 100%; 
+  min-width: 1200px; 
+  will-change: background-position; 
+  transition: opacity 0.3s ease;
+} 
+.pattern.unactive { 
+  opacity: 0; 
+} 
+
+#sock-pattern-light { 
+  animation: pan 180s linear infinite; 
+  background-image: url("images/sock-pattern-light.webp");
+}
+#sock-pattern-dark {
+  animation: pan 180s linear infinite;
+  background-image: url("images/sock-pattern-dark.webp");
+}
+#stat-pattern-light {
+  animation: pan2 180s linear infinite; 
+  background-image: url("images/stat-pattern-light.webp");
+  
+}
+#stat-pattern-dark {
+  animation: pan2 180s linear infinite;
+  background-image: url("images/stat-pattern-dark.webp");
+}
+
+@keyframes pan2 {
+  0% {
+    background-position: 0 0;
+  }
+  100% {
+    background-position: -200% 99.43%;
+  }
+}
+
+@keyframes pan {
+  0% {
+    background-position: 0 0;
+  }
+  100% {
+    background-position: 200% 0;
+  }
+}
+
+
+.loader, .loader:before, .loader:after {
+  top: -8px;
+  border-radius: 50%;
+  width: 1.5em;         /* dot size */
+  height: 1.5em;
+  animation-fill-mode: both;
+  animation: bblFadInOut 1.8s infinite ease-in-out;
+}
+
+.loader {
+  color: #000;
+  font-size: 5px;     /* controls relative size */
+  position: relative;
+  text-indent: -9999em;
+  transform: translateZ(0);
+  animation-delay: -0.16s;
+  left: 10px;
+}
+
+.loader:before,
+.loader:after {
+  content: '';
+  position: absolute;
+  top: 0;
+}
+
+.loader:before {
+  left: -2em;       /* spacing left */
+  animation-delay: -0.32s;
+}
+
+.loader:after {
+  left: 2em;        /* spacing right */
+}
+
+@keyframes bblFadInOut {
+  0%, 80%, 100% { box-shadow: 0 1.5em 0 -0.6em currentColor }
+  40% { box-shadow: 0 1.5em 0 0 currentColor }
+}
+
