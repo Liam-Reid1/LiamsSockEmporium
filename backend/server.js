@@ -21,14 +21,14 @@ app.use(express.static(path.join(__dirname, '../public')));
 
 // ✅ Database
 const db = mysql.createConnection({
-  host: 'mysql-liams-sock-emporium-ontariotechu-0ee1.f.aivencloud.com',
-  port: 11764,
-  user: 'avnadmin',
-  password: process.env.SQL_PW, 
-  database: 'defaultdb',
-  ssl: { ca: fs.readFileSync('./ca.pem') },
-  multipleStatements: false, 
+  host: process.env.SQL_HOST,
+  port: process.env.SQL_PORT,
+  user: process.env.SQL_USER,
+  password: process.env.SQL_PW,
+  database: process.env.SQL_DB,
+  ssl: { ca: Buffer.from(process.env.SQL_CA, 'base64').toString('utf8') }
 });
+
 
 db.connect(err => {
   if (err) console.error('Database connection failed:', err);
