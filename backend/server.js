@@ -17,7 +17,7 @@ const app = express();
 app.use(express.json());
 
 // Serve static files
-app.use(express.static(path.join(__dirname, '../public')));
+app.use(express.static(path.join(__dirname, '../public'))); 
 
 // ✅ Database
 const db = mysql.createConnection({
@@ -527,6 +527,10 @@ app.get('/main/date-chart', (req, res) => { //fix percentage
 
 
 // Start server
+app.get('/', (req, res) => {
+  res.redirect('/main.html');
+});
+
 const PORT = process.env.PORT || 3000;
 app.listen(PORT, () => {
   console.log(`Server running: http://localhost:${PORT}/main.html`);
