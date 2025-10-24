@@ -20,6 +20,7 @@ app.use(express.json());
 app.use(express.static(path.join(__dirname, '../public'))); 
 
 // ✅ Database
+/*
 const db = mysql.createConnection({
   host: 'mysql-liams-sock-emporium-ontariotechu-0ee1.f.aivencloud.com',
   port: 11764,
@@ -29,7 +30,8 @@ const db = mysql.createConnection({
   ssl: { ca: fs.readFileSync('./ca.pem') },
   multipleStatements: false, 
 });
-/*
+*/
+
 const db = mysql.createConnection({
   host: process.env.SQL_HOST,
   port: process.env.SQL_PORT,
@@ -38,7 +40,7 @@ const db = mysql.createConnection({
   database: process.env.SQL_DB,
   ssl: { ca: Buffer.from(process.env.SQL_CA, 'base64').toString('utf8') }
 });
-*/
+
 
 db.connect(err => {
   if (err) console.error('Database connection failed:', err);
