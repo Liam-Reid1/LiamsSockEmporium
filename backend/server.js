@@ -526,7 +526,17 @@ app.get('/main/date-chart', (req, res) => { //fix percentage
 });
 
 
+app.get('/main', (req, res) => {
+  res.sendFile(path.join(__dirname, '../public/main.html'));
+});
 
+app.get('/record', (req, res) => {
+  res.sendFile(path.join(__dirname, '../public/record.html'));
+});
+
+app.get('/socks', (req, res) => {
+  res.sendFile(path.join(__dirname, '../public/socks.html'));
+});
 
 // Start server
 app.get('/', (req, res) => {
