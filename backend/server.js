@@ -540,7 +540,7 @@ app.get('/socks', (req, res) => {
 
 // Start server
 app.get('/', (req, res) => {
-  res.redirect('/main.html');
+  res.redirect('/main');
 });
 
 const PORT = process.env.PORT || 3000;
