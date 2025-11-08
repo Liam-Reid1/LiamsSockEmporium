@@ -62,7 +62,10 @@ SQL_DB=sockschema
 SQL_PORT=3000
 ```
 
-### 4 Import the Database
+### 4 Database Setup
+To set up the database locally, import the sample SQL file from:
+[sock-emporium-sample-db](https://github.com/Liam-Reid1/LiamsSockEmporiumDatabase)
+
 To get the database running locally, clone the companion repository and import the SQL file into mySQL.
 This will create the required tables and populate them with sample data.
 Additionally, add the excel sheet into the backend to easily 
