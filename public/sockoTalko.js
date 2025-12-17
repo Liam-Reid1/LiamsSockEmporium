@@ -57,6 +57,7 @@ async function playText() {
     talkoText.scrollTo(0, talkoText.scrollHeight);
 
     if (volume !== 'true') return;
+    if (window.innerWidth <= 768) return;
 
     await waitForVoices();
 
