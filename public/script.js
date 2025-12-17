@@ -856,8 +856,8 @@ function animateValue(obj, start, end, duration) { // Animation for big numbers 
 
 async function loadSplashText() { // Random splash text for main page
 	try {
-		const response = await fetch("splash.json"); // fetch the file
-		if (!response.ok) throw new Error("Failed to load splash.json");
+		const response = await fetch("dialogue.json"); // fetch the file
+		if (!response.ok) throw new Error("Failed to load dialogue.json");
 
 		const data = await response.json(); // parse as JSON
 		const splashMessages = data.splashes;
@@ -888,21 +888,25 @@ async function getSockDataTopScore() {
 		}
 		// Entirety of bigItems built here
 		bigItems.innerHTML = `
-			<div id="logoContainer"><img height='150' width='420' id='logoImg' src="${logo}" alt="Logo" loading="lazy" onerror="this.onerror=null; this.src='images/not_found.webp';"></div>
-			<h2 id="bigNumbers"><br><span id="totalSockNum">${totalSocks}</span> Socks<br><br><br><span id="totalDayNum">${totalDays}</span> Days Recorded</h2> 
-			<div id="tabContainer"> 
-				<div class="tab"> 
-					<button class="active" data-tab="top">Top Sock</button> 
-					<button data-tab="sotm">Sock of the Month</button> 
-					<button data-tab="featured">Featured Sock</button> 
-				</div> 
-				<div class="tab-body"> 
-					<div id="top" class="tabcontent active"></div> 
-					<div id="sotm" class="tabcontent"></div> 
-					<div id="featured" class="tabcontent"></div> 
-				</div> 
+			<div id="bigItemsL">
+				<div id="logoContainer"><img height='150' width='420' id='logoImg' src="${logo}" alt="Logo" loading="lazy" onerror="this.onerror=null; this.src='images/not_found.webp';"></div>
+				<h2 id="bigNumbers"><br><span id="totalSockNum">${totalSocks}</span> Socks<br><br><br><span id="totalDayNum">${totalDays}</span> Days Recorded</h2> 
 			</div>
-			<div id="splashText"></div>
+			<div id="bigItemsR">
+				<div id="tabContainer"> 
+					<div class="tab"> 
+						<button class="active" data-tab="top">Top Sock</button> 
+						<button data-tab="sotm">Sock of the Month</button> 
+						<button data-tab="featured">Featured Sock</button> 
+					</div> 
+					<div class="tab-body"> 
+						<div id="top" class="tabcontent active"></div> 
+						<div id="sotm" class="tabcontent"></div> 
+						<div id="featured" class="tabcontent"></div> 
+					</div> 
+				</div>
+				<div id="splashText"></div>
+			</div>
 		`; 
 		loadSplashText(); // Could be moved outside catch
 		animateValue(document.getElementById('totalSockNum'), 0, totalSocks, totalSocks * 50); // Animate big numbers
@@ -921,7 +925,7 @@ async function getSockDataTopScore() {
 			const topSock = buildSockBoxHTML(record, 'top'); // New sock box with special tag 'top'
 			document.getElementById('top').appendChild(topSock); // Add to page
 		}); 
-		if (data.length > maxBoxes) { // Alignment depends on number of vaules
+		if (data.length >= maxBoxes) { // Alignment depends on number of vaules
 			document.getElementById('top').style.justifyContent = 'start'; 
 		} else { 
 			document.getElementById('top').style.justifyContent = 'center'; 
@@ -1029,6 +1033,96 @@ async function getSockDataDate() {
 		console.error('Error fetching sock data:', error); 
 	} 
 } 
+
+
+async function getTotalSockDate() {
+	fetch('/main/total-socks')
+  .then(res => res.json())
+  .then(data => {
+    const labels = data.map(d => d.month);
+    const cumulative = data.map(d => d.total_socks);
+
+    setTotalChart(labels, cumulative);
+  });
+
+}
+
+function setTotalChart(labels, data) {
+	const canvas = document.getElementById('totalChart'); 
+	if (!canvas) return; 
+	document.fonts.ready.then(() => { 
+		Chart.defaults.font.family = 'MapleMono'; 
+		Chart.defaults.font.size = 13;
+		Chart.defaults.font.weight = 'normal';
+		const rootStyles = getComputedStyle(document.documentElement);
+		const textColour = rootStyles.getPropertyValue('--chart-text-colour').trim();
+		Chart.defaults.color = textColour;
+		const ctx = canvas.getContext('2d'); 
+		new Chart(ctx, { 
+			type: 'line', 
+				data: {
+					labels,
+					datasets: [{
+						label: 'Total Socks Owned',
+						data,
+						tension: 0.3,
+						fill: true,
+						borderColor: '#67AFFB', 
+						backgroundColor:  '#67AEFB33'
+					}]
+				},
+				options: { 
+					responsive: true, 
+					maintainAspectRatio: false, 
+					plugins: { 
+						title: { 
+							display: true, 
+							text: 'Total Socks Owned' 
+						}, 
+						legend: { 
+							display: false,
+							position: 'left',
+							align: 'start'
+						}, 
+						tooltip: { 
+							mode: 'nearest',
+							intersect: false,
+							position: 'nearest',
+							yAlign: 'bottom',
+							xAlign: 'center'
+						} 
+					}, 
+					scales: { 
+						x: { 
+							title: { 
+								display: true, 
+								text: 'Month' 
+							}, 
+							ticks: {
+								autoSkip: false,
+								maxRotation: 30,
+								minRotation: 30,
+								callback: function(value, index, ticks) {
+								if (index === 0 || index === ticks.length - 1) {
+									return this.getLabelForValue(value);
+								}
+								return '';
+								}
+							}
+						}, 
+						y: { 
+							beginAtZero: false, 
+							title: { 
+								display: true, 
+								text: 'Sock Count' 
+							}
+						}, 
+					} 
+				} 
+		});
+	});
+}
+
 
 let lineChartInstance; // Keep reference to update chart later 
 
@@ -1203,7 +1297,7 @@ function createBarGraph(labels, data, colours) {
 
 // re-create on window resize
 window.addEventListener('resize', () => {
-	initChatTab(); // set chatbox
+	//initChatTab(); // set chatbox
 
 	document.querySelectorAll(".draggable").forEach(elmnt => { // set sock modals
 		const style = getComputedStyle(elmnt);
@@ -1347,8 +1441,25 @@ document.addEventListener('DOMContentLoaded', () => {
 	initSockBox(); 
 	initScrollTitle(); 
 	initRecordSearch(); 
-	initChatTab(); 
+	//initChatTab(); 
 	initRecordInputs(); 
+
+	// For the time being, this is how it'll be until I find a replacement
+	// When it's fixed, decomment the chat tab stuff and get rid of this
+	const mainContainer = document.getElementById('chartContainer');
+	const sockContainer = document.getElementById('boxContainer');
+	const sockButton = document.getElementById('searchType');
+	const recordContainer = document.getElementById('scroll');
+	if (mainContainer) {
+		mainContainer.style.marginLeft = '12%';
+	}
+	else if (sockContainer) {
+		sockContainer.style.marginLeft = '17%';
+		sockButton.style.left = '3%';
+	}
+	else if (recordContainer) {
+		recordContainer.style.marginLeft = '24%';
+	}
 }); 
 
 /* ----------------------------- Charts + Background Handling ------------------------------ */ 
@@ -1361,6 +1472,7 @@ function initCharts() {
 	getSockDataCharts(); 
 	getSockDataDate(); 
 	getSockDataTopScore(); 
+	getTotalSockDate();
 
 	const darkBackgroundM = document.getElementById('stat-pattern-dark'); 
 	const lightBackgroundM = document.getElementById('stat-pattern-light'); 
