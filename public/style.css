@@ -388,7 +388,7 @@ body {
     transform: scale(0.9);
 }
 
-
+/*
 .socko {
   position: absolute;
   border: 5px solid;
@@ -397,6 +397,24 @@ body {
   width: 130px;
   height: 130px;
   min-width: 130px;
+  bottom: 15px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: var(--container-colour);
+  overflow: hidden;
+  cursor: grab;
+  transition: 0.3s ease;
+}
+*/
+.socko {
+  border: 5px solid;
+  border-radius: 20px;
+  border-color: var(--border-colour);
+  width: 130px;
+  height: 130px;
+  min-width: 130px;
+  margin: 20px auto;
   bottom: 15px;
   display: flex;
   align-items: center;
@@ -453,6 +471,7 @@ body {
 .sockBox {
   position: relative;
   display: flex;
+  flex-shrink: 0;
   justify-content: center;
   align-items: center;
   width: 50px;
@@ -771,14 +790,26 @@ body {
 
 #bigItemsContainer {
   width: 100%;
-  height: 400px;
+  height: auto;
   display: grid;
   grid-template-columns: repeat(2, minmax(150px, 1fr));
-  grid-template-rows: 150px 150px;
   grid-auto-flow: column;
   gap: 20px;
   object-fit: contain;
-  overflow: none;
+  overflow: hidden;
+}
+
+#bigItemsL {
+  display: grid;
+  grid-template-rows: 40% 60%;
+  gap: 20px;
+  padding-bottom: 20px;
+}
+#bigItemsR {
+  display: grid;
+  grid-template-rows: 65% 35%;
+  gap: 20px;
+  object-fit: contain;
 }
 
 #logoContainer {
@@ -808,10 +839,11 @@ body {
 
 #bigNumbers {
   width: 98%;
-  height: 101%; /*170px */            /* example fixed height */
+  height: auto; /*170px */            /* example fixed height */
   text-align: center;        /* horizontally centers text */
   line-height: 22px;
   padding-top: 20px;
+  padding-bottom: 20px;
   font-size: 1.75vw;
   border: 5px solid;
   border-radius: 20px;
@@ -821,12 +853,16 @@ body {
   transition: 0.3s ease;
 }
 
-
-.tab-buttons { 
-  display: flex; 
-  gap: 10px; 
-  margin-top: 20px; 
-} 
+#tabContainer {
+  padding: 20px 0;
+  white-space: nowrap;
+  min-width: 0;
+}
+.tab {
+  display: grid;
+  white-space: wrap;
+  grid-template-columns: 1fr 1fr 1fr;
+}
 .tab button { 
   background-color: inherit; 
   float: left; 
@@ -838,11 +874,11 @@ body {
   border-color: var(--border-colour);
   background-color: var(--container-colour);
   color: var(--text-colour);
-  padding: 14px 16px; 
+  padding: 12px 14px; 
   margin: 0 10px;
   transition: 0.3s ease; 
-  font-size: 12px; /* Increase font size */ 
-  font-weight: bold;
+  font-size: 0.7em; /* Increase font size */ 
+  font-weight: bolder;
   font-family: 'MapleMono', monospace; 
 } 
 /* Change background color of buttons on hover */ 
@@ -856,15 +892,17 @@ body {
 } 
 
 .tab-body {
-  width: 100%;
-  margin-top: 70px;
-  overflow: hidden;
+  display: block;
+  align-items: center;
+  justify-content: center;
+  height: 160px;
+  margin-top: 20px;
+  white-space: nowrap;
 }
 
 .tabcontent {
   height: 100%; /* 150px */
-  width: 100%;
-  max-width: 430px; /* 401px */
+  width: auto;
   justify-content: center; /* or space-between / center if you want spacing */
   box-sizing: border-box;
   align-items: center;
@@ -877,7 +915,8 @@ body {
   background-color: var(--container-colour);
   gap: 15px;
   display: none; 
-  padding: 6px 12px;  
+  padding: 6px 12px; 
+  margin: 0 auto;
   transition: 0.3s ease;
   overflow-x: auto;
   white-space: nowrap;
@@ -887,12 +926,12 @@ body {
 }
 
 #splashText {
-  margin-top: 100px;
-  width: 98%;
+  width: 96%;
   height: 90px;
   min-height: 90px;
   max-height: 90px;
   line-height: 90px;
+  margin: 0 auto;
   font-size: 1.5vw;
   font-weight: bold;
   text-align: center;
@@ -921,7 +960,7 @@ body {
 }
 
 
-#pieChart, #barChart {
+#pieChart {
   width: 90%;
   padding: 20px;
   margin: 20px 0;
@@ -938,6 +977,95 @@ body {
   padding: 20px;
   border: 5px solid;
   border-radius: 20px;
+  border-color: var(--border-colour);
+  background-color: var(--container-colour);
+  transition: 0.3s ease;
+}
+
+#unemployedContainer {
+  width: 100%;
+  height: 400px;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  grid-auto-flow: column;
+  gap: 20px;
+  object-fit: contain;
+  white-space: nowrap;
+  margin: 20px 0;
+}
+#unemployedContainer > * {
+  min-width: 0;
+}
+#talkoContainer {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  background: var(--container-colour);
+  color: var(--text-colour);
+  border: 5px solid;
+  border-radius: 20px;
+  border-color: var(--border-colour);
+  align-items: center;
+  justify-content: center;
+  transition: 0.3s ease;
+}
+
+#talkoContainer > * {
+  min-height: 0;
+}
+
+#leftTalkoContainer {
+  display: grid;
+  grid-template-rows: 1fr 1fr;
+}
+
+#rightTalkoContainer {
+  width: 100%;
+  margin: auto;
+}
+
+#talkoTitle {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: auto;
+  text-align: center;
+  padding-top: 20px;
+  padding-bottom: 20px;
+  font-size: 20px;
+  font-weight: bold;
+  color: var(--text-colour);
+  transition: 0.3s ease;
+}
+#talkoText {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 320px;
+  max-height: 320px;
+  width: 70%;
+  align-self: start;
+  text-align: center;
+  white-space: wrap;
+  overflow-wrap: anywhere;
+  overflow-y: auto;
+  margin: 0 auto;
+  padding: 20px 10px;
+  font-size: 16px;
+  color: var(--text-colour);
+  border: 5px solid;
+  border-radius: 20px;
+  border-color: var(--border-colour);
+  transition: 0.3s ease;
+}
+#totalContainer {
+  width: 100%;
+  height: 100%;
+  max-width: 100%;
+  box-sizing: border-box;
+  margin: 0 auto;
+  border: 5px solid;
+  border-radius: 20px;
+  padding: 10px;
   border-color: var(--border-colour);
   background-color: var(--container-colour);
   transition: 0.3s ease;
@@ -994,6 +1122,21 @@ body {
 }
 
 @media (max-width: 768px) {
+  #unemployedContainer {
+    display: flex;
+    height: auto;
+    flex-direction: column;
+    align-items: center;
+    object-fit: contain;
+    white-space: nowrap;
+  }
+  #talkoContainer, #totalContainer, #totalWrapper {
+    width: 100%;
+  }
+  #talkoText {
+    height: 300px;
+    max-height: 300px;
+  }
   #chartContainer {
     width: 80%;
     margin: 25% 0 3% 0;
@@ -1001,7 +1144,7 @@ body {
   }
   #bigItemsContainer {
     grid-template-columns: 1fr;
-    grid-template-rows: repeat(4, minmax(80px, auto));
+    grid-template-rows: repeat(2, minmax(80px, auto));
     height: auto;      /* grow to fit content instead of fixed 400px */
     gap: 12px;
     padding: 8px;

@@ -20,6 +20,7 @@ app.use(express.json());
 app.use(express.static(path.join(__dirname, '../public'))); 
 
 // ✅ Database
+
 /*
 const db = mysql.createConnection({
   host: 'mysql-liams-sock-emporium-ontariotechu-0ee1.f.aivencloud.com',
@@ -92,6 +93,7 @@ app.post('/api/chat', async (req, res) => {
 
     const data = await response.json();
     const reply = data?.choices?.[0]?.message?.content || "I'm done talking today, buzz off.";
+    console.log(data);
     res.json({ reply });
 
   } catch (error) {
@@ -276,6 +278,53 @@ app.get('/main/chart', (req, res) => { //fix percentage
       }
   });
 });
+
+app.get('/main/total-socks', (req, res) => {
+  const query = `
+    WITH RECURSIVE months AS (
+      SELECT DATE_FORMAT(MIN(Date), '%Y-%m-01') AS month_start
+      FROM schedule
+      UNION ALL
+      SELECT DATE_ADD(month_start, INTERVAL 1 MONTH)
+      FROM months
+      WHERE month_start < (
+          SELECT DATE_FORMAT(MAX(Date), '%Y-%m-01')
+          FROM schedule
+      )
+    ),
+    first_worn AS (
+        SELECT
+            Sock,
+            DATE_FORMAT(MIN(Date), '%Y-%m-01') AS first_month
+        FROM schedule
+        GROUP BY Sock
+    ),
+    new_socks_per_month AS (
+        SELECT
+            first_month,
+            COUNT(*) AS new_socks
+        FROM first_worn
+        GROUP BY first_month
+    )
+    SELECT
+        DATE_FORMAT(m.month_start, '%Y-%m') AS month,
+        COALESCE(n.new_socks, 0) AS new_socks,
+        SUM(COALESCE(n.new_socks, 0)) OVER (ORDER BY m.month_start) AS total_socks
+    FROM months m
+    LEFT JOIN new_socks_per_month n
+        ON n.first_month = m.month_start
+    ORDER BY m.month_start
+  `;
+
+  db.query(query, (err, results) => {
+      if (err) {
+          console.error('Error fetching sock data:', err);
+          res.status(500).json({ error: 'Database error' });
+      } else {
+          res.json(results);
+      }
+  });
+})
 
 // not used, keep?
 app.get('/socks/most-worn', (req, res) => {
