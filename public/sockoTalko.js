@@ -25,31 +25,61 @@ function speechSupported() {
         typeof SpeechSynthesisUtterance !== 'undefined'
     );
 }
+function waitForVoices() {
+    return new Promise(resolve => {
+        let voices = speechSynthesis.getVoices();
+        if (voices.length) {
+            resolve(voices);
+        } else {
+            speechSynthesis.onvoiceschanged = () => {
+                resolve(speechSynthesis.getVoices());
+            };
+        }
+    });
+}
+
 
 async function playText() {
-    if (talkoFinished) {
-        let text = await loadSockoText();
-        if (text) {
-            if (volume === 'true' && speechSupported()) {
-                talkoFinished = false;
-                const utterance = new SpeechSynthesisUtterance(text);
-                utterance.rate = 1;
-                utterance.pitch = 2;
-                speechSynthesis.speak(utterance);
-                socko.src = `images/socko_2.webp`;
-                utterance.onend = (event) => {
-                    socko.src = `images/socko_1.webp`;
-                    talkoFinished = true;
-                };
-            }
-            talkoText.innerText = "\n=> " + text + "\n";
-            talkoText.scrollTo(0, talkoText.scrollHeight);
-        }
-        else {
-            console.log('Failed to talk');
-        }
+    if (!talkoFinished) return;
+
+    if (!speechSupported()) {
+        console.log('Speech synthesis not supported');
+        return;
     }
+
+    const text = await loadSockoText();
+    if (!text) {
+        console.log('Failed to talk');
+        return;
+    }
+
+    talkoText.innerText = "\n=> " + text + "\n";
+    talkoText.scrollTo(0, talkoText.scrollHeight);
+
+    if (volume !== 'true') return;
+
+    await waitForVoices();
+
+    talkoFinished = false;
+
+    const utterance = new SpeechSynthesisUtterance(text);
+    utterance.rate = 1;
+    utterance.pitch = 2;
+
+    utterance.onend = () => {
+        socko.src = `images/socko_1.webp`;
+        talkoFinished = true;
+    };
+
+    utterance.onerror = (e) => {
+        console.error('Speech error:', e);
+        talkoFinished = true;
+    };
+
+    socko.src = `images/socko_2.webp`;
+    speechSynthesis.speak(utterance);
 }
+
 
 async function loadSockoText() {
 	try {
