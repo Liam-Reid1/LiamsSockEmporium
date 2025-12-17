@@ -19,11 +19,18 @@ socko.addEventListener('click', () => {
     }
 })
 
+function speechSupported() {
+    return (
+        'speechSynthesis' in window &&
+        typeof SpeechSynthesisUtterance !== 'undefined'
+    );
+}
+
 async function playText() {
     if (talkoFinished) {
         let text = await loadSockoText();
         if (text) {
-            if (volume === 'true') {
+            if (volume === 'true' && speechSupported()) {
                 talkoFinished = false;
                 const utterance = new SpeechSynthesisUtterance(text);
                 utterance.rate = 1;

@@ -1133,6 +1133,10 @@ body {
   #talkoContainer, #totalContainer, #totalWrapper {
     width: 100%;
   }
+  #totalContainer {
+    height: 320px;
+    max-height: 320px;
+  }
   #talkoText {
     height: 300px;
     max-height: 300px;
