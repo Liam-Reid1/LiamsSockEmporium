@@ -6,12 +6,7 @@ require('dotenv').config();
 // Set up the database connection
 async function main() {
   const connection = await mysql.createConnection({
-    host: 'mysql-liams-sock-emporium-ontariotechu-0ee1.f.aivencloud.com',
-    port: 11764,
-    user: 'avnadmin',
-    password: process.env.SQL_PW,
-    database: 'defaultdb',
-    ssl: { ca: fs.readFileSync('./ca.pem') },
+    // add here
   });
 
   // Read Excel file
