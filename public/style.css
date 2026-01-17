@@ -507,6 +507,7 @@ body {
 
 .sockScore {
   position: absolute;
+  display: block;
   top: 5px;
   left: 10px;
   font-size: 12px;
@@ -549,6 +550,9 @@ body {
   .sockBox {
     padding: 1.5rem;
     font-size: 14px;
+  }
+  .sockScore {
+    display: none;
   }
 }
 
