@@ -816,15 +816,18 @@ body {
   object-fit: contain;
 }
 
+/* crazy how difficult this one is */
 #logoContainer {
+  display: flex;
+  align-items: center;
   width: 98%; /* 420px */
   height: auto; /* 150px */
   border: 5px solid;
+  justify-content: center;
   border-radius: 20px;
   border-color: var(--border-colour);
   background-color: var(--container-colour);
   overflow: hidden;
-  aspect-ratio: 42 / 15;
   transition: 0.3s ease;
 }
 
@@ -832,6 +835,7 @@ body {
   opacity: 1;
   height: auto;
   max-width: 100%;
+  margin: 0 auto;
   height: fit-content;
   transition: 0.3s ease; /* smooth fade */
 }
