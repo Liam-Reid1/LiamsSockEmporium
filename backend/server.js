@@ -39,7 +39,9 @@ const db = mysql.createConnection({
   user: process.env.SQL_USER,
   password: process.env.SQL_PW,
   database: process.env.SQL_DB,
-  ssl: { ca: Buffer.from(process.env.SQL_CA, 'base64').toString('utf8') }
+  ssl: { 
+    rejectUnauthorized: false,
+    ca: Buffer.from(process.env.SQL_CA, 'base64').toString('utf8') }
 });
 
 
