@@ -21,17 +21,6 @@ app.use(express.static(path.join(__dirname, '../public')));
 
 // ✅ Database
 
-/*
-const db = mysql.createConnection({
-  host: 'mysql-liams-sock-emporium-ontariotechu-0ee1.f.aivencloud.com',
-  port: 11764,
-  user: 'avnadmin',
-  password: process.env.SQL_PW, 
-  database: 'defaultdb',
-  ssl: { ca: fs.readFileSync('./ca.pem') },
-  multipleStatements: false, 
-});
-*/
 
 const db = mysql.createConnection({
   host: process.env.SQL_HOST,
@@ -43,7 +32,6 @@ const db = mysql.createConnection({
     rejectUnauthorized: false,
     ca: Buffer.from(process.env.SQL_CA, 'base64').toString('utf8') }
 });
-
 
 db.connect(err => {
   if (err) console.error('Database connection failed:', err);
@@ -503,6 +491,24 @@ app.get('/main/sotm', (req, res) => {
 	}); 
 });
 
+app.get('/main/week', (req, res) => { // Displays last 7 days
+  const query = `
+    SELECT sock, day 
+    FROM schedule
+    ORDER BY date DESC
+    LIMIT 7
+  `;
+
+  db.query(query, (err, results) => {
+      if (err) {
+          console.error('Error fetching sock data:', err);
+          res.status(500).json({ error: 'Database error' });
+      } else {
+          res.json(results);
+      }
+  });
+});
+
 // Line chart
 app.get('/main/date-chart', (req, res) => { //fix percentage
   const query = `
@@ -554,6 +560,7 @@ app.get('/main/date-chart', (req, res) => { //fix percentage
           sock,
           DATE_FORMAT(STR_TO_DATE(month_start, '%Y-%m-%d'), '%b-%Y') AS YearMonth,
           colour,
+          wear_count,
           past_wear_count + SUM(wear_count) OVER (
             PARTITION BY sock 
             ORDER BY STR_TO_DATE(month_start, '%Y-%m-%d') 

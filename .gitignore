@@ -25,3 +25,9 @@ Thumbs.db
 
 # Excel files (optional, if you don’t want to upload your data)
 Socks.xlsx
+
+# Don't need to update these anymore
+updateDatabase.js
+createSock.js
+public/sockoTalko.js
+public/chat.js

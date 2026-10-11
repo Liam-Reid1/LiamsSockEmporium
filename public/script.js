@@ -1000,11 +1000,17 @@ async function getSockDataDate() {
 		if (!data || data.length === 0) return; 
 		const months = [...new Set(data.map(row => row.YearMonth))].sort((a, b) => new Date('01-' + a) - new Date('01-' + b) ); 
 		const socks = [...new Set(data.map(row => row.sock))]; 
-		const wearMap = data.reduce((acc, { sock, YearMonth, CumulativeWorn }) => { 
+		const monthMap = data.reduce((acc, { sock, YearMonth, wear_count }) => { 
+			if (!acc[sock]) acc[sock] = {}; 
+			acc[sock][YearMonth] = Number(wear_count); 
+			return acc; 
+		}, {}); 
+		const yearMap = data.reduce((acc, { sock, YearMonth, CumulativeWorn }) => { 
 			if (!acc[sock]) acc[sock] = {}; 
 			acc[sock][YearMonth] = Number(CumulativeWorn); 
 			return acc; 
 		}, {}); 
+		var currentMap = yearMap;
 		socks.forEach(sock => { // Build checkbox for each sock
 			const label = document.createElement('label'); 
 			label.classList.add('sockLabel');
@@ -1014,21 +1020,26 @@ async function getSockDataDate() {
 			checkbox.name = 'Sock'; 
 			checkbox.value = sock; 
 			checkbox.checked = true; // initially show all 
-			checkbox.onchange = (event) => { setLineChart(months, wearMap, data); playClick(); }; // If changed, line chart updates
+			checkbox.onchange = (event) => { setLineChart(months, currentMap, data); playClick(); }; // If changed, line chart updates
 			label.appendChild(checkbox); 
 			label.append(' ' + sock); 
 			checkboxContainer.appendChild(label); 
 		}); 
-		var checkboxes = checkboxContainer.querySelectorAll("input[type='checkbox']"); 
+		var checkboxes = checkboxContainer.querySelectorAll(".sockCheckbox"); 
 		document.getElementById('selectAll').onchange = (event) => { 
 			checkboxes.forEach(checkbox => {  // Changes all checkboxes to selectAll value
 				checkbox.checked = document.getElementById('selectAll').checked; 
 			}); 
 			playClick();
-			setLineChart(months, wearMap, data); // update chart after select/deselect all 
+			setLineChart(months, currentMap, data); // update chart after select/deselect all 
+		}; 
+		document.getElementById('cumulative').onchange = (event) => { 
+			currentMap = currentMap == yearMap ? monthMap : yearMap;
+			playClick();
+			setLineChart(months, currentMap, data); // update chart after switching modes
 		}; 
 
-		setLineChart(months, wearMap, data); // Initial chart 
+		setLineChart(months, currentMap, data); // Initial chart 
 	} catch (error) { 
 		console.error('Error fetching sock data:', error); 
 	} 
@@ -1043,8 +1054,28 @@ async function getTotalSockDate() {
     const cumulative = data.map(d => d.total_socks);
 
     setTotalChart(labels, cumulative);
-  });
+  })
+  .catch(err => console.error('Fetch error:', err)); 
 
+}
+
+async function getRecentSockDate() {
+	fetch('/main/week')
+	.then(res => res.json())
+	.then(data => {
+		const tbody = document.querySelector('#recentTable tbody'); 
+		tbody.innerHTML = ``;
+		data.forEach(day => {
+			const row = document.createElement('tr'); 
+			row.innerHTML = `<td class="recentDay">${day.day.substring(0, 3)}</td>
+				<td>${day.sock}</td>`;
+				
+			tbody.appendChild(row); 
+
+		})
+		data = null; 
+	})
+	.catch(err => console.error('Fetch error:', err)); 
 }
 
 function setTotalChart(labels, data) {
@@ -1128,7 +1159,7 @@ let lineChartInstance; // Keep reference to update chart later
 
 function setLineChart(months, wearMap, data) { 
 	const checkboxes = document.querySelectorAll('#sockCheckboxes input[type="checkbox"]'); 
-	const selectedSocks = Array.from(checkboxes) .filter(cb => cb.checked && cb.id !== 'selectAll') .map(cb => cb.value); 
+	const selectedSocks = Array.from(checkboxes) .filter(cb => cb.checked && cb.id !== 'selectAll' && cb.id !== 'cumulative') .map(cb => cb.value); 
 	const datasets = selectedSocks.map(sock => { 
 	const sockMonths = wearMap[sock] || {}; 
 	const colour = data.find(d => d.sock === sock)?.colour || '000000'; 
@@ -1428,12 +1459,6 @@ function isMobile() {
     return 'ontouchstart' in window || navigator.maxTouchPoints > 0;
 }
 
-if (isMobile()) {
-    console.log("Touch device detected (likely mobile)");
-} else {
-    console.log("Non-touch device detected");
-}
-
 
 // Initialization based on current page 
 document.addEventListener('DOMContentLoaded', () => { 
@@ -1473,6 +1498,7 @@ function initCharts() {
 	getSockDataDate(); 
 	getSockDataTopScore(); 
 	getTotalSockDate();
+	getRecentSockDate();
 
 	const darkBackgroundM = document.getElementById('stat-pattern-dark'); 
 	const lightBackgroundM = document.getElementById('stat-pattern-light'); 

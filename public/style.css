@@ -78,6 +78,7 @@ h1 {
   font-size: 32px;
 }
 body {
+  cursor: default;
   margin: 0;
   background-color: var(--background);
   transition: background-color 0.3s ease;
@@ -485,6 +486,7 @@ body {
   text-align: center;
   font-size: 16px;
   font-weight: bold;
+  box-shadow: rgba(0, 0, 0, 0.2) 0 4px;
   color: var(--text-colour);
   cursor: pointer;
   transition: transform 0.2s ease, border-color 0.3s ease, color 0.3s ease, background-color 0.3s ease;
@@ -503,6 +505,7 @@ body {
 }
 .sockBox:active {
   transform: scale(80%);
+  box-shadow: none;
 }
 
 .sockScore {
@@ -994,7 +997,7 @@ body {
   width: 100%;
   height: 400px;
   display: grid;
-  grid-template-columns: 1fr 1fr;
+  grid-template-columns: 1fr 0.5fr;
   grid-auto-flow: column;
   gap: 20px;
   object-fit: contain;
@@ -1004,9 +1007,10 @@ body {
 #unemployedContainer > * {
   min-width: 0;
 }
-#talkoContainer {
-  display: grid;
-  grid-template-columns: 1fr 1fr;
+#recentContainer {
+  display: inline-block; 
+  max-height: 400px;
+  text-align: center; 
   background: var(--container-colour);
   color: var(--text-colour);
   border: 5px solid;
@@ -1014,57 +1018,47 @@ body {
   border-color: var(--border-colour);
   align-items: center;
   justify-content: center;
+  overflow-y: auto;
   transition: 0.3s ease;
 }
 
-#talkoContainer > * {
+#recentTable {
+  padding: 1.5vw;
+  padding-top: 0;
+  font-size: 1.25vw;
+  width: 100%; 
+  text-align: center; 
+  vertical-align: middle; 
+  border-collapse: separate;
+  border-spacing: 15px;
+  white-space: wrap;
+  overflow: hidden;
+  transition: 0.3s ease;
+} 
+#recentTable tr {
+  transition: 0.3s ease;
+}
+#recentTable tr:hover {
+  transform: scaleX(1.01);
+}
+.recentDay {
+  font-weight: bold;
+}
+
+#recentContainer > * {
   min-height: 0;
 }
 
-#leftTalkoContainer {
+#leftRecentContainer {
   display: grid;
   grid-template-rows: 1fr 1fr;
 }
 
-#rightTalkoContainer {
+#rightRecentContainer {
   width: 100%;
   margin: auto;
 }
 
-#talkoTitle {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  height: auto;
-  text-align: center;
-  padding-top: 20px;
-  padding-bottom: 20px;
-  font-size: 20px;
-  font-weight: bold;
-  color: var(--text-colour);
-  transition: 0.3s ease;
-}
-#talkoText {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  height: 320px;
-  max-height: 320px;
-  width: 70%;
-  align-self: start;
-  text-align: center;
-  white-space: wrap;
-  overflow-wrap: anywhere;
-  overflow-y: auto;
-  margin: 0 auto;
-  padding: 20px 10px;
-  font-size: 16px;
-  color: var(--text-colour);
-  border: 5px solid;
-  border-radius: 20px;
-  border-color: var(--border-colour);
-  transition: 0.3s ease;
-}
 #totalContainer {
   width: 100%;
   height: 100%;
@@ -1121,11 +1115,11 @@ body {
   transition: 0.3s ease;
 }
 /* Special checkbox label with more pronounced font style */
-#selectAllLabel {
+#selectAllLabel, #cumulativeLabel {
   font-size: 1.25vw;
   font-weight: bold;
 }
-.sockLabel, .sockCheckbox, #selectAllLabel, #selectAll {
+.sockLabel, .sockCheckbox, #selectAllLabel, #selectAll, #cumulativeLabel, #cumulative {
   cursor: pointer;
 }
 
@@ -1138,17 +1132,22 @@ body {
     object-fit: contain;
     white-space: nowrap;
   }
-  #talkoContainer, #totalContainer, #totalWrapper {
+  #recentContainer, #totalContainer, #totalWrapper {
     width: 100%;
   }
   #totalContainer {
     height: 320px;
     max-height: 320px;
   }
-  #talkoText {
+  #recentTable {
     height: 300px;
     max-height: 300px;
-  }
+    font-size: 1rem; 
+    width: 100%; 
+    text-align: center; 
+    vertical-align: middle; 
+  } 
+
   #chartContainer {
     width: 80%;
     margin: 25% 0 3% 0;

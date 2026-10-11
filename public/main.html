@@ -56,29 +56,30 @@
         <div id="bigItemsContainer">
           
         </div>
-        <canvas id="pieChart"></canvas> 
-
-        <div id="unemployedContainer">
-          <div id="talkoContainer">
-            <div id="leftTalkoContainer">
-              <div id="talkoTitle">Talk to<br>Socko!</div>
-              <div class="socko"><img id= "sockoImg" src="images/socko_1.webp" alt="Socko" loading="lazy" onerror="this.onerror=null; this.src='images/not_found.webp';"></div>
-            </div>
-            <div id="rightTalkoContainer">
-              <div id="talkoText"></div>
-            </div>
-          </div>
-          <div id="totalContainer">
-            <canvas id="totalChart"></canvas>
-          </div>
-        </div>
-
+        
         <div id="barContainer">
           <canvas id="barGraph"></canvas> 
         </div>
 
+        <div id="unemployedContainer">
+          <div id="totalContainer">
+            <canvas id="totalChart"></canvas>
+          </div>
+          <div id="recentContainer">
+            <h3 id="recentTitle">Recent Wears</h3>
+            <table id="recentTable">
+              <tbody>
+                <!-- Data will be inserted here by JavaScript -->
+              </tbody>
+            </table>
+          </div>
+        </div>
+
+        <canvas id="pieChart"></canvas> 
+
         <div id="timeDisplay"> 
           <div id="sockCheckboxes"> 
+            <label for="cumulative" id="cumulativeLabel"><input type="checkbox" id="cumulative" checked=True> Cumulative</label>
             <label for="selectAll" id="selectAllLabel"><input type="checkbox" id="selectAll" checked=True> Select All</label>
             <!-- Populated dynamically --> 
           </div> 
@@ -97,7 +98,7 @@
       <!-- Sock Type Modals-->
     </div>
     <!--<script src="chat.js"></script>-->
-    <script src="sockoTalko.js"></script>
+    <!--<script src="sockoTalko.js"></script>-->
     <script src="script.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/howler/2.2.4/howler.min.js"></script>
   </body>
