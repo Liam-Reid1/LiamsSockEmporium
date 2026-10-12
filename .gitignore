@@ -27,7 +27,7 @@ Thumbs.db
 Socks.xlsx
 
 # Don't need to update these anymore
-updateDatabase.js
-createSock.js
+backend/updateDatabase.js
+backend/createSock.js
 public/sockoTalko.js
 public/chat.js
